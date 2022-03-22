@@ -1,6 +1,6 @@
 {
   "name": "sermon-audio",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Sermon Audio API Client",
   "main": "node/index.js",
   "scripts": {

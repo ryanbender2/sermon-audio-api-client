@@ -96,9 +96,23 @@ found at the [API](https://api.sermonaudio.com/#home) site.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### ES Modules (ESM)
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+```js
+import { getSermon } from 'sermon-audio/node';
+
+const sermon = getSermon(...);
+```
+
+It's recommended that you not import the entire module to
+reduce the amount of unused import. Alternatively though, you can import
+the entire module:
+
+```js
+import sermonaudio from 'sermon-audio/node';
+
+const sermon = sermonaudio.getSermon(...);
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
