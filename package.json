@@ -2,9 +2,9 @@
   "name": "sermon-audio",
   "version": "1.0.4",
   "description": "Sermon Audio API Client",
-  "main": "lib/index.js",
+  "main": "node/index.js",
   "scripts": {
-    "dev": "npm run build && node lib/index.js",
+    "dev": "npm run build && node node/_other.js",
     "test": "npx jest --collectCoverage",
     "build": "npx tsc"
   },

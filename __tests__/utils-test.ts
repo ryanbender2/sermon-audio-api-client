@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { HighlightedSortOrders, SermonEventType, SermonSortOption } from '../src/models';
+import { HighlightedSortOrders, SermonEventType, SermonSortOption } from '../src/utils/models';
 import { getAlbumArtUrl, getHighlightedSortSermonParameters, joinUrlPath } from '../src/utils';
 
 test('getAlbumArtUrl replaces pixel sizes', () => {

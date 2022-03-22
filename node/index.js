@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getHighlightedSermons = exports.getSpeakersForBroadcaster = exports.getAllSermonEventTypes = exports.getFilterOptions = exports.getSpeakers = exports.getSpeaker = exports.getSeries = exports.getSeriesList = exports.getSermonEventTypes = exports.getBroadcaster = exports.getSermon = exports.getSermons = void 0;
-const models_1 = require("../models");
-const utils_1 = require("../utils");
-const api_1 = require("../api");
+const models_1 = require("./utils/models");
+const utils_1 = require("./utils");
+const api_1 = require("./utils/api");
 const URL_PATH = "node";
 /**
  * Get a set of sermons with pagination data, when available.

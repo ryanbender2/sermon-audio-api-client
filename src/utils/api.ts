@@ -1,6 +1,6 @@
 import urlJoin from 'url-join';
 import fetch from 'node-fetch';
-import { parseNode } from './utils';
+import { parseNode } from '.';
 
 const BASE_URL = 'https://api.sermonaudio.com/v2/'
 

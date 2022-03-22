@@ -1,5 +1,5 @@
-import { PaginatedResponse, Sermon, Broadcaster, SermonEventTypeDetail, SermonAudioNode, SeriesSortOrder, SeriesFilter, SermonSeries, Speaker, FilterOptions, HighlightedSermons } from '../models';
-import { SermonsParams } from './types';
+import { PaginatedResponse, Sermon, Broadcaster, SermonEventTypeDetail, SermonAudioNode, SeriesSortOrder, SeriesFilter, SermonSeries, Speaker, FilterOptions, HighlightedSermons } from './utils/models';
+import { SermonsParams } from './utils/types';
 /**
  * Get a set of sermons with pagination data, when available.
  *

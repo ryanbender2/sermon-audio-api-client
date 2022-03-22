@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.get = exports.getNode = exports.request = void 0;
 const url_join_1 = __importDefault(require("url-join"));
 const node_fetch_1 = __importDefault(require("node-fetch"));
-const utils_1 = require("./utils");
+const _1 = require(".");
 const BASE_URL = 'https://api.sermonaudio.com/v2/';
 async function request(path, searchParams) {
     var url = (0, url_join_1.default)(BASE_URL, path);
@@ -17,7 +17,7 @@ async function request(path, searchParams) {
 exports.request = request;
 async function getNode(path, searchParams) {
     const resp = await request(path, searchParams);
-    return await (0, utils_1.parseNode)(resp);
+    return await (0, _1.parseNode)(resp);
 }
 exports.getNode = getNode;
 async function get(path, searchParams) {

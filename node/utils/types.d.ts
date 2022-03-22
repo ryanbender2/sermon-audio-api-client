@@ -1,4 +1,4 @@
-import { HighlightedSortOrders, OSISBook, SermonEventType, SermonSortOption } from "../models";
+import { HighlightedSortOrders, OSISBook, SermonEventType, SermonSortOption } from "./models";
 export declare type SermonsParams = {
     path?: string | null;
     page?: number;

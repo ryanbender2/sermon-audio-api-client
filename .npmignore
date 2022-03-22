@@ -1,9 +1,12 @@
 src/
 __tests__/
 coverage/
+images/
 babel.config.json
 jest.config.js
 tsconfig.json
+node/_other.js
+node/_other.d.ts
 
 # Logs
 logs

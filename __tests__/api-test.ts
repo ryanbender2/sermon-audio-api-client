@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
-import { request, get, getNode } from '../src/api';
-import { SermonAudioNode, SermonEventTypeDetail, Speaker } from '../src/models';
+import { request, get, getNode } from '../src/utils/api';
+import { SermonAudioNode, SermonEventTypeDetail, Speaker } from '../src/utils/models';
 import { createSearchParams } from '../src/utils';
 
 test('the request api gets a 404 status from sermon audio', async () => {
