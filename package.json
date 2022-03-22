@@ -2,9 +2,9 @@
   "name": "sermon-audio",
   "version": "1.0.0",
   "description": "Sermon Audio API Client",
-  "main": "client/index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "dev": "npm run build && node client/index.js",
+    "dev": "npm run build && node lib/index.js",
     "build": "npx tsc",
     "publish": "npm run build && npm publish"
   },

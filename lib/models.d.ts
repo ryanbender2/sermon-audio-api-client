@@ -124,8 +124,9 @@ export declare type Speaker = {
     albumArtURL: string;
     roundedThumbnailImageURL: string;
     bio: string | null;
-    mostRecentPreachDate: Date | null;
+    mostRecentPreachDate: string | null;
     sermonCount: number;
+    highlighted: {};
 };
 export declare class PaginatedResponse<T> {
     page: number;
@@ -265,12 +266,9 @@ export declare type RelativeBroadcasterLocation = {
     meters: number;
 };
 export declare type SermonEventTypeDetail = {
-    type: string;
     description: string;
-    displayEvent_type: string;
-    number_of_sermons: number;
-    roku_image_url: string;
-    fire_tv_image_url: string;
+    displayEventType: string;
+    type: string;
 };
 export declare enum SeriesPodcastLinkType {
     TUNEIN = "tunein",
@@ -300,12 +298,13 @@ export declare type SermonSeriesFeedLink = {
     link: string | null;
 };
 export declare type SermonSeries = {
+    broadcaster: Broadcaster | null;
     seriesID: number | null;
     title: string | null;
     broadcasterID: string | null;
     latest: string | null;
     earliest: string | null;
-    updated: string | null;
+    updated: number | null;
     count: number;
     description: string | null;
     podcastEnabled: boolean;
@@ -315,4 +314,34 @@ export declare type SermonSeries = {
     rssURL: string | null;
     rssAtomURL: string | null;
     feedLinks: SermonSeriesFeedLink[] | null;
+};
+export declare type Book = {
+    type: string | null;
+    bookName: string | null;
+    displayBookName: string | null;
+    chapters: number[] | null;
+    osisPA: string | null;
+};
+export declare type Language = {
+    languageName: string | null;
+    languageCode: string | null;
+    type: string | null;
+};
+export declare type SermonCountForSpeaker = {
+    count: number | null;
+    speaker: string | null;
+    type: string | null;
+};
+export declare type Year = {
+    type: string;
+    year: number;
+};
+export declare type FilterOptions = {
+    bibleBooks: Book[];
+    languages: Language[];
+    series: SermonSeries[];
+    speakers: Speaker[];
+    sermonCountsForSpeakers: SermonCountForSpeaker[];
+    sermonEventTypes: SermonEventTypeDetail[];
+    years: Year[];
 };

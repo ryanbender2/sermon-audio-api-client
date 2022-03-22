@@ -1,4 +1,4 @@
-import { OSISBook, SermonEventType, HighlightedSortOrders, SermonSortOption, PaginatedResponse, Sermon, Broadcaster, RelativeBroadcasterLocation, SermonEventTypeDetail, SermonAudioNode, SeriesSortOrder, SeriesFilter, SermonSeries } from '../models';
+import { OSISBook, SermonEventType, HighlightedSortOrders, SermonSortOption, PaginatedResponse, Sermon, Broadcaster, RelativeBroadcasterLocation, SermonEventTypeDetail, SermonAudioNode, SeriesSortOrder, SeriesFilter, SermonSeries, Speaker, FilterOptions } from '../models';
 import { createSearchParams, getHighlightedSortSermonParameters, joinUrlPath, parseNode } from '../utils';
 import { SermonsParams } from './types';
 import { get, getNode } from '../api';
@@ -43,7 +43,7 @@ export async function getSermons({
     if (highlightedSort) {
         const params = getHighlightedSortSermonParameters(highlightedSort)
 
-        // Set the sortBy the the default sort order for highlighted sermons.
+        // Set the sortBy the default sort order for highlighted sermons.
         sortBy = SermonSortOption.NEWEST
 
         if (params.listenerRecommended)
@@ -153,4 +153,95 @@ export async function getSeriesList(
     })
     const node = await getNode<SermonSeries[]>(path, searchParams);
     return new PaginatedResponse(page, pageSize ? pageSize : 0, node);
+}
+
+/**
+ * Fetches a single series.
+ * 
+ * @param seriesName The name of the series.
+ * @param broadcasterID The broadcaster ID that owns the series.
+ * @returns A single SermonSeries, or null if series name does not exist.
+ */
+export async function getSeries(seriesName: string, broadcasterID: string): Promise<SermonSeries | null> {
+    const path = joinUrlPath(URL_PATH, 'broadcasters', broadcasterID, 'series', seriesName)
+    const data = await get<SermonSeries>(path);
+    if (data.broadcasterID === undefined)
+        return null;
+    return data;
+}
+
+/**
+ * Fetches a single speaker.
+ * 
+ * @param speakerName The name of the speaker (exactly as it appears on the SA site).
+ * @returns A single Speaker, or null if speaker does not exist.
+ */
+export async function getSpeaker(speakerName: string): Promise<Speaker | null> {
+    const path = joinUrlPath(URL_PATH, 'speakers', speakerName)
+    const data = await get<Speaker>(path);
+    if (data.type === undefined)
+        return null;
+    return data;
+}
+
+/**
+ * Fetches a list of speakers.
+ * 
+ * @param broadcasterID The ID of the broadcaster the speakers must have preached at.
+ * @param query A search query to try to locate the speaker by.
+ * @param pageSize The number of results to return.
+ * @returns A list of Speakers
+ */
+export async function getSpeakers(broadcasterID: string, query: string | null = null, pageSize: number = 25): Promise<Speaker[] | null> {
+    const path = joinUrlPath(URL_PATH, 'speakers')
+    const searchParams = createSearchParams({
+        "broadcasterID": broadcasterID,
+        "query": query,
+        "pageSize": pageSize
+    })
+    const node = await get<SermonAudioNode<Speaker[]>>(path, searchParams);
+    return node.results;
+}
+
+/**
+ * Get filter options for the given broadcaster.
+ * 
+ * @param broadcasterID The broadcaster ID you are interested in.
+ * @param includeUnpublished Include unpublished.
+ * @returns A filter options object containing available filters for the broadcaster or null
+ */
+export async function getFilterOptions(broadcasterID: string, includeUnpublished: boolean = false): Promise<FilterOptions | null> {
+    const path = joinUrlPath(URL_PATH, 'broadcasters', broadcasterID, 'filter_options');
+    const searchParams = createSearchParams({
+        "includeUnpublished": includeUnpublished
+    });
+    return await get<FilterOptions>(path, searchParams);
+}
+
+/**
+ * Get a list of all supported sermon event types.
+ */
+export async function getAllSermonEventTypes(): Promise<SermonEventTypeDetail[] | null> {
+    const path = joinUrlPath(URL_PATH, 'filter_options', 'sermon_event_types');
+    const node = await get<SermonAudioNode<SermonEventTypeDetail[]>>(path);
+    return node.results;
+}
+
+/**
+ * Fetches a list of all speakers for a broadcaster.
+ * 
+ * In contrast to getSpeakers(), which searches across multiple
+ * broadcasters, this returns a list of all speakers associated
+ * with the given broadcaster.
+ *
+ * @param broadcasterID The ID of the broadcaster.
+ * @return A list of Speakers.
+ */
+export async function getSpeakersForBroadcaster(broadcasterID: string): Promise<Speaker[] | null> {
+    const path = joinUrlPath(URL_PATH, 'broadcasters', broadcasterID, 'speakers');
+    const searchParams = createSearchParams({
+        "broadcasterID": broadcasterID
+    });
+    const node = await get<SermonAudioNode<Speaker[]>>(path, searchParams);
+    return node.results;
 }
