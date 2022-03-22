@@ -1,14 +1,40 @@
-import { OSISBook, SermonEventType, HighlightedSortOrders, SermonSortOption, PaginatedResponse, Sermon, Broadcaster, RelativeBroadcasterLocation, SermonEventTypeDetail, SermonAudioNode, SeriesSortOrder, SeriesFilter, SermonSeries, Speaker, FilterOptions } from '../models';
-import { createSearchParams, getHighlightedSortSermonParameters, joinUrlPath, parseNode } from '../utils';
+import { SermonSortOption, PaginatedResponse, Sermon, Broadcaster, SermonEventTypeDetail, SermonAudioNode, SeriesSortOrder, SeriesFilter, SermonSeries, Speaker, FilterOptions, HighlightedSermons } from '../models';
+import { createSearchParams, getHighlightedSortSermonParameters, joinUrlPath } from '../utils';
 import { SermonsParams } from './types';
 import { get, getNode } from '../api';
-
 
 const URL_PATH = "node";
 
 /**
  * Get a set of sermons with pagination data, when available.
  * 
+ * @param path The path to the endpoint you want to call (defaults to the all-purpose sermon node endpoint).
+ * @param page The page number to load (defaults to 1).
+ * @param pageSize The number of items per page (currently defaults to 50 if omitted).
+ * @param book The book of the Bible to limit results to.
+ * @param chapter The chapter of the book to limit results to.
+ * @param chapterEnd If you want to query a range of chapters, the range will span from chapter to chapter_end.
+ * @param verse The verse of the chapter to limit results to.
+ * @param verseEnd If you want to query a range of verses, the range will span from verse to verse_end.
+ * @param eventType The type of event to limit results to, if any.
+ * @param searchKeyword Keywords to search by.
+ * @param languageCode The language code to limit results to.
+ * @param requireAudio If true, all results will have ready-to-play audio.
+ * @param requireVideo If true, all results will have ready-to-play video.
+ * @param series The series to limit results to (may be an ID or name).
+ * @param broadcasterID The ID of the broadcaster to limit results to.
+ * @param sermonIDs A set of sermon IDs to return. This option ignores most others.
+ * @param speakerName The speaker name to limit results to.
+ * @param year The year to limit results to (preach date, not upload date).
+ * @param sortBy A sort to apply to the results. Defaults to preach date descending.
+ * @param staffPick List only sermons that are SermonAudio staff picks.
+ * @param featured List only sermons that were featured by the broadcaster.
+ * @param listenerRecommended List only sermons that have been recommended by listeners.
+ * @param includeDrafts If true, include sermons with no publish date.
+ * @param includeScheduled If true, include sermons set to be published in the future.
+ * @param includePublished If true, include published sermons.
+ * @param highlightedSermonSort If included, use the sort order determined by the value of this parameter. If a highlighted sermon sort is included, it overrides other sort/filter options.
+ * @returns A sermon list response with pagination data, if available.
  */
 export async function getSermons({
     path = null,
@@ -244,4 +270,28 @@ export async function getSpeakersForBroadcaster(broadcasterID: string): Promise<
     });
     const node = await get<SermonAudioNode<Speaker[]>>(path, searchParams);
     return node.results;
+}
+
+/**
+ * Fetches highlighted sermons info for a broadcaster.
+ * 
+ * Each broadcaster can set a highlighted sermon. See the
+ * HighlightedAudioInputTypes enum for more documentation on the
+ * audio types you can set. (A separate welcome video can also be
+ * set. It is part of the Broadcaster model object.) The
+ * highlighted sermon appears on the broadcaster's home page. Also,
+ * a short list of sermons appears on a broadcaster's home
+ * page. The sermons appear in the sort order returned in the
+ * HighlightedSermons model object. API users can use this setting
+ * to create a similar list by calling the getSermons() endpoint.
+ * 
+ * @param broadcasterID The ID of the broadcaster to fetch.
+ * @returns Highlighted sermons.
+ */
+export async function getHighlightedSermons(broadcasterID: string): Promise<HighlightedSermons | null> {
+    const path = joinUrlPath(URL_PATH, 'broadcasters', broadcasterID, 'highlighted_sermons');
+    const node = await get<HighlightedSermons>(path);
+    if (node.sortTitle === undefined)
+        return null;
+    return node;
 }

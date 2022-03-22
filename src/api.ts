@@ -4,7 +4,7 @@ import { parseNode } from './utils';
 
 const BASE_URL = 'https://api.sermonaudio.com/v2/'
 
-async function request(path: string, searchParams?: URLSearchParams) {
+export async function request(path: string, searchParams?: URLSearchParams) {
     var url = urlJoin(BASE_URL, path)
     if (searchParams)
         url = `${url}?${searchParams.toString()}`

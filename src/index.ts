@@ -1,16 +1,16 @@
 import { SermonSortOption } from "./models";
-import { getAllSermonEventTypes, getBroadcaster, getFilterOptions, getSeries, getSeriesList, getSermon, getSermonEventTypes, getSermons, getSpeaker, getSpeakers, getSpeakersForBroadcaster } from "./node/requests";
+import { getHighlightedSermons, getSermons, getSpeaker, getSpeakersForBroadcaster } from "./node/requests";
 import { createSearchParams } from "./utils";
 
 
 async function main() {
     const testBroadcasterID = 'glasgowrpcs'
     const testSeries = 'Joel'
-    const data = await getSpeakersForBroadcaster(testBroadcasterID);
+    const data = await getSpeaker('Craig J. Scott');
     if (data)
         console.log(data);
     else
-        console.log('data is null');
+        console.log(data);
     
 }
 

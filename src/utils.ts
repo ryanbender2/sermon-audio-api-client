@@ -12,7 +12,7 @@ import { Response } from 'node-fetch';
  * @returns URL for the square album art with a with and height equal to the provided size argument
  */
 export function getAlbumArtUrl(albumArtURLFormat: string, size: number) {
-    return albumArtURLFormat.replace("{size}", size.toString());
+    return albumArtURLFormat.replaceAll("{size}", size.toString());
 }
 
 /**
@@ -22,7 +22,7 @@ export function getAlbumArtUrl(albumArtURLFormat: string, size: number) {
  */
 export function joinUrlPath(...elements: string[]) {
     const urlEncoded: string[] = elements.map(ele => encodeURI(ele));
-    return join(...urlEncoded).replace('\\', '/');
+    return join(...urlEncoded).replaceAll('\\', '/');
 }
 
 /**
@@ -30,7 +30,7 @@ export function joinUrlPath(...elements: string[]) {
  * @param highlightedSort 
  * @returns search params
  */
-export function getHighlightedSortSermonParameters(highlightedSort: string) {
+export function getHighlightedSortSermonParameters(highlightedSort: HighlightedSortOrders) {
     switch (highlightedSort) {
         case HighlightedSortOrders.ADDED:
             return {"sortBy": SermonSortOption.ADDED};

@@ -387,3 +387,10 @@ export type FilterOptions = {
     sermonEventTypes: SermonEventTypeDetail[]
     years: Year[];
 }
+
+export type HighlightedSermons = {
+    sortOrder: HighlightedSortOrders | null;
+    sortTitle: string | null;
+    audioTitle: string | null;
+    audioSermon: Sermon | null;
+}

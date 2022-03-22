@@ -345,3 +345,9 @@ export declare type FilterOptions = {
     sermonEventTypes: SermonEventTypeDetail[];
     years: Year[];
 };
+export declare type HighlightedSermons = {
+    sortOrder: HighlightedSortOrders | null;
+    sortTitle: string | null;
+    audioTitle: string | null;
+    audioSermon: Sermon | null;
+};
